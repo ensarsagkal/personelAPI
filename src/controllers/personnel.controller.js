@@ -18,6 +18,10 @@ module.exports = {
   },
 
   create: async (req, res) => {
+    const isLead=req.body || false
+    if(isLead){
+      await Personnel.updateMany({departmentId:req.body.departmentId,isLead:true},{isLead:false})
+    }
     const data = await Personnel.create(req.body);
 
     res.status(201).send({
