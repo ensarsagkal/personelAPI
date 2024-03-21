@@ -29,6 +29,28 @@ const { dbConnection } = require('./src/configs/dbConnection')
 dbConnection()
 
 /* ------------------------------------------------------- */
+//* MORGAN LOGGING
+// https://expressjs.com/en/resources/middleware/morgan.html
+// https://github.com/expressjs/morgan
+//? $ npm i morgan
+
+const morgan = require('morgan')
+
+// app.use(morgan('combined'))
+// app.use(morgan('common'))
+// app.use(morgan('dev'))
+// app.use(morgan('short'))
+// app.use(morgan('tiny'))
+// app.use(morgan('IP=:remote-addr | TIME=:date[clf] | METHOD=:method | URL=:url | STATUS=:status | LENGTH=:res[content-length] | REF=:referrer | AGENT=":user-agent"'))
+
+//? Write to log file:
+const fs = require('node:fs')
+app.use(morgan('combined', {
+    stream: fs.createWriteStream('./access.log')
+}))
+
+
+/* ------------------------------------------------------- */
 // Middlewares:
 
 // Accept JSON:
