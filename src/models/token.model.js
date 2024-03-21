@@ -16,7 +16,8 @@ const {mongoose} = require('../configs/dbConnection')
         type:mongoose.Schema.Types.ObjectId,
         ref:"Personnel", //user
         required:true,
-        index:true
+        index:true,
+        unique:true,
     },
     token:{
         type:String,

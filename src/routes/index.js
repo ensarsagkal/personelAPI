@@ -6,10 +6,10 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 
 // /department:
-router.use('/departments', require('./routes/department.router'))
+router.use('/departments', require('.department.router'))
 // /personnel:
-router.use('/personnels', require('./routes/personnel.router'))
+router.use('/personnels', require('.personnel.router'))
 // /token:
-router.use('/tokens', require('./routes/token.router'))
+router.use('/tokens', require('./token.router'))
 
 module.exports = router
