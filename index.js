@@ -28,7 +28,7 @@ require('express-async-errors')
 const { dbConnection } = require('./src/configs/dbConnection')
 dbConnection()
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
 //* MORGAN LOGGING
 // https://expressjs.com/en/resources/middleware/morgan.html
 // https://github.com/expressjs/morgan
@@ -44,9 +44,19 @@ const morgan = require('morgan')
 // app.use(morgan('IP=:remote-addr | TIME=:date[clf] | METHOD=:method | URL=:url | STATUS=:status | LENGTH=:res[content-length] | REF=:referrer | AGENT=":user-agent"'))
 
 //? Write to log file:
+// const fs = require('node:fs')
+// app.use(morgan('combined', {
+//     stream: fs.createWriteStream('./access.log', { flags: 'a+' })
+// }))
+
+//? Write to file day by day:
 const fs = require('node:fs')
+const now = new Date()
+// console.log(typeof now, now)
+const today = now.toISOString().split('T')[0]
+// console.log(typeof today, today)
 app.use(morgan('combined', {
-    stream: fs.createWriteStream('./access.log')
+    stream: fs.createWriteStream(`./logs/${today}.log`, { flags: 'a+' })
 }))
 
 
@@ -55,6 +65,9 @@ app.use(morgan('combined', {
 
 // Accept JSON:
 app.use(express.json())
+
+// Logging:
+app.use(require('./src/middlewares/logging'))
 
 // SessionsCookies:
 app.use(require('cookie-session')({ secret: process.env.SECRET_KEY }))
