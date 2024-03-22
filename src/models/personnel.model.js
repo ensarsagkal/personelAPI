@@ -93,5 +93,6 @@ const PersonnelSchema = new mongoose.Schema(
   },
   { collection: "personnels", timestamps: true }
 );
+
 /* ------------------------------------------------------- */
 module.exports = mongoose.model("Personnel", PersonnelSchema);
