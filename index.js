@@ -59,13 +59,30 @@ app.use(morgan('combined', {
     stream: fs.createWriteStream(`./logs/${today}.log`, { flags: 'a+' })
 }))
 
+/* ------------------------------------------------------- */
+//* DOCUMENTATION:
+// https://swagger-autogen.github.io/docs/
+// $ npm i swagger-autogen
+// $ npm i swagger-ui-express
+// $ npm i redoc-express
 
-/* ------------------------------------------------------- */
-    //* Documentation
-    // $ npm i swagger-autogen
-    // $ npm i swagger-ui-express
-    // $ npm i redoc-express
-/* ------------------------------------------------------- */
+//? JSON
+app.use('/documents/json', (req, res) => {
+    res.sendFile('swagger.json', { root: '.' })
+})
+
+//? SWAGGER:
+const swaggerUi = require('swagger-ui-express')
+const swaggerJson = require('./swagger.json')
+app.use('/documents/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, { swaggerOptions: { persistAuthorization: true } }))
+
+//? REDOC:
+const redoc = require('redoc-express')
+app.use('/documents/redoc', redoc({
+    title: 'PersonnelAPI',
+    specUrl: '/documents/json'
+}))
+
 /* ------------------------------------------------------- */
 // Middlewares:
 
@@ -119,7 +136,15 @@ app.all('/', (req, res) => {
         message: 'Welcome to PERSONNEL API',
         // session: req.session,
         // isLogin: req.isLogin,
-        user: req.user
+        user: req.user,
+        api: {
+            documents: {
+                swagger: 'http://127.0.0.1:8000/documents/swagger',
+                redoc: 'http://127.0.0.1:8000/documents/redoc',
+                json: 'http://127.0.0.1:8000/documents/json',
+            },
+            contact: 'contact@clarusway.com'
+        },
     })
 })
 
