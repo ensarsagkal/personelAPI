@@ -3,7 +3,7 @@
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // Middleware: permissions (authorization)
-
+const Personnel=require("../models/personnel.model")
 module.exports = {
 
     isLogin: (req, res, next) => {
@@ -60,5 +60,32 @@ module.exports = {
             throw new Error('NoPermission: You must login and to be Admin or Record Owner.')
         }
 
+    },
+// Hehangi bir departmandaki lead, o departmandaki belirli birisini nesnelesin
+isLeadOrOwnForPersonnelSearch: async (req, res, next) => {
+    // console.log(req.user)
+    const userId = req.user._id;
+    // console.log(userId)
+    const departmentId = req.user.departmentId.toString()
+    // console.log(departmentId)
+
+    const searchedPersonnel = await Personnel.findOne({_id: req.params.id});
+    // console.log(req.user.isLead) //  ture
+    const isDepartmentLead = req.user.isLead && (departmentId == searchedPersonnel.departmentId.toString());
+    
+    const isOwn = userId == req.params.id;
+
+    // console.log(searchedPersonnel, isDepartmentLead, isOwn);
+
+    if ((req.user && req.user.isAdmin || isDepartmentLead ) || isOwn) {
+        next();
+    } else {
+        res.errorStatusCode = 403;
+        throw new Error("NoPermission: You must login and to be Admin or Lead on your own Department.");
     }
+},
+        
+        
+        
+        
 }

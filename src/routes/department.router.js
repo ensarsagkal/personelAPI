@@ -22,5 +22,6 @@ router.route('/:id')
 
 router.get('/:id/personnels', permissions.isAdminOrLead, department.personnels)
 
+
 /* ------------------------------------------------------- */
 module.exports = router

@@ -15,7 +15,7 @@ router.route('/')
     .post(permissions.isAdmin, personnel.create)
 
 router.route('/:id')
-    .get(permissions.isAdminOrOwn, personnel.read)
+    .get(permissions.isLeadOrOwnForPersonnelSearch, personnel.read)
     .put(permissions.isAdminOrOwn, personnel.update)
     .patch(permissions.isAdminOrOwn, personnel.update)
     .delete(permissions.isAdmin, personnel.delete)
