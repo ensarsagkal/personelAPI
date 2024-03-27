@@ -74,7 +74,11 @@ app.use('/documents/json', (req, res) => {
 //? SWAGGER:
 const swaggerUi = require('swagger-ui-express')
 const swaggerJson = require('./swagger.json')
-app.use('/documents/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, { swaggerOptions: { persistAuthorization: true } }))
+const options = { customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.css',swaggerOptions: { persistAuthorization: true }, customJs: [
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.js'
+  ] };
+app.use('/documents/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, options))
 
 //? REDOC:
 const redoc = require('redoc-express')
