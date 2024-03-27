@@ -35,7 +35,7 @@ const document = {
 	// },
 	info: {
 		version: packageJson.version,
-		title: packageJson.title,
+		title: "Personnel API",
 		description: packageJson.description,
 		termsOfService: "http://www.clarusway.com",
 		contact: { name: packageJson.author, email: "ensarsagkal@gmail.com" },
